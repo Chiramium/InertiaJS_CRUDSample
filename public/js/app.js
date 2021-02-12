@@ -4300,7 +4300,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     createBlog: function createBlog() {
-      console.log('submitted');
+      // console.log('submitted');
+      this.form.post(route("blog.store"));
     }
   }
 });

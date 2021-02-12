@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminatr\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Redirect;
 
 use Inertia\Inertia;
 use App\Models\Blog;
@@ -39,7 +39,11 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+
+        Blog::create($input);
+
+        return Redirect::route('blog.index');
     }
 
     /**

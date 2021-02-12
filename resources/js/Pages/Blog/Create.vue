@@ -60,7 +60,8 @@
         },
         methods: {
             createBlog() {
-                console.log('submitted');
+                // console.log('submitted');
+                this.form.post(route("blog.store"));
             }
         }
     }
