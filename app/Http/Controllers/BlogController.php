@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 use Inertia\Inertia;
 use App\Models\Blog;
@@ -40,6 +41,11 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+
+        // Validator::make($input, [
+        //     'title' => ['required'],
+        //     'content' => ['required']
+        // ])->validateWithBag('blogCreate');
 
         Blog::create($input);
 
