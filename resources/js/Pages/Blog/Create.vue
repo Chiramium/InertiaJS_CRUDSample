@@ -50,7 +50,7 @@
                     {
                         _method: "POST",
                         title: "",
-                        description: "",
+                        content: "",
                     },
                     {
                         bag: "blogCreate",
