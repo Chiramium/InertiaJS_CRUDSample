@@ -4243,6 +4243,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
 /* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
 /* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
 //
 //
 //
@@ -4274,18 +4275,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 
 
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['blogs'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__.default,
     JetFormSection: _Jetstream_FormSection__WEBPACK_IMPORTED_MODULE_1__.default,
     JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_2__.default,
     JetLabel: _Jetstream_Label__WEBPACK_IMPORTED_MODULE_3__.default,
-    JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__.default
+    JetButton: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_4__.default,
+    JetInputError: _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_5__.default
   },
   data: function data() {
     return {
@@ -4294,14 +4300,28 @@ __webpack_require__.r(__webpack_exports__);
         title: "",
         content: ""
       }, {
-        bag: "blogCreate"
+        bag: "blogCreate",
+        resetOnSuccess: false
       })
     };
   },
   methods: {
     createBlog: function createBlog() {
+      var _this = this;
+
       // console.log('submitted');
-      this.form.post(route("blog.store"));
+      this.form.post(route("blog.store"), {
+        errorBag: 'blogCreate',
+        onError: function onError() {
+          if (_this.form.errors.title) {
+            console.log('title error'); //this.$refs.title.focus()
+          }
+
+          if (_this.form.errors.content) {
+            console.log('content error'); //this.$refs.content.focus()
+          }
+        }
+      });
     }
   }
 });
@@ -33093,7 +33113,16 @@ var render = function() {
                               },
                               expression: "form.title"
                             }
-                          })
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "jet-input-error",
+                            {
+                              staticClass: "mt-2",
+                              attrs: { message: _vm.form.errors.title }
+                            },
+                            [_vm._v("error")]
+                          )
                         ],
                         1
                       ),
@@ -33130,6 +33159,11 @@ var render = function() {
                                 )
                               }
                             }
+                          }),
+                          _vm._v(" "),
+                          _c("jet-input-error", {
+                            staticClass: "mt-2",
+                            attrs: { message: _vm.form.errors.content }
                           })
                         ],
                         1

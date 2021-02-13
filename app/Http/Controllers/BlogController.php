@@ -42,10 +42,10 @@ class BlogController extends Controller
     {
         $input = $request->all();
 
-        // Validator::make($input, [
-        //     'title' => ['required'],
-        //     'content' => ['required']
-        // ])->validateWithBag('blogCreate');
+        Validator::make($input, [
+            'title' => ['required'],
+            'content' => ['required']
+        ])->validateWithBag('blogCreate');
 
         Blog::create($input);
 

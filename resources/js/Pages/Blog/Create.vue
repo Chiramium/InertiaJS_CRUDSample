@@ -14,10 +14,12 @@
                         <div class="col-span-6 sm:col-span-4">
                             <jet-label for="title" value="Title" />
                             <jet-input id="title" type="text" class="mt-1 block w-full" v-model="form.title" />
+                            <jet-input-error :message="form.errors.title" class="mt-2" >error</jet-input-error>
                         </div>
                         <div class="col-span-6 sm:col-span-4">
                             <jet-label for="content" value="Content" />
                             <textarea v-model="form.content" class="mt-1 block w-full form-input rounded-md shadow-sm"></textarea>
+                            <jet-input-error :message="form.errors.content" class="mt-2" />
                         </div>
                     </template>
                     <template #actions>
@@ -30,19 +32,22 @@
 </template>
 
 <script>
-    import AppLayout from '@/Layouts/AppLayout'
+    import AppLayout from '@/Layouts/AppLayout';
     import JetFormSection from'@/Jetstream/FormSection';
     import JetInput from '@/Jetstream/Input';
     import JetLabel from '@/Jetstream/Label';
     import JetButton from '@/Jetstream/Button';
+    import JetInputError from '@/Jetstream/InputError';
 
     export default {
+        props: ['blogs'],
         components: {
             AppLayout,
             JetFormSection,
             JetInput,
             JetLabel,
             JetButton,
+            JetInputError,
         },
         data() {
             return {
@@ -54,6 +59,7 @@
                     },
                     {
                         bag: "blogCreate",
+                        resetOnSuccess: false,
                     }
                 )
             };
@@ -61,7 +67,20 @@
         methods: {
             createBlog() {
                 // console.log('submitted');
-                this.form.post(route("blog.store"));
+                this.form.post(route("blog.store"), {
+                    errorBag: 'blogCreate',
+                    onError: () => {
+                        if (this.form.errors.title) {
+                            console.log('title error');
+                            //this.$refs.title.focus()
+                        }
+
+                        if (this.form.errors.content) {
+                            console.log('content error');
+                            //this.$refs.content.focus()
+                        }
+                    },
+                });
             }
         }
     }
