@@ -7,9 +7,9 @@
         </template>
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <jet-form-section @submitted="createBlog">
-                    <template #title>Create Blog</template>
-                    <template #description>Create a new blog. </template>
+                <jet-form-section @submitted="editBlog">
+                    <template #title>Edit Blog</template>
+                    <template #description>Edit this blog. </template>
                     <template #form>
                         <div class="col-span-6 sm:col-span-4">
                             <jet-label for="title" value="Title" />
@@ -23,7 +23,7 @@
                         </div>
                     </template>
                     <template #actions>
-                        <jet-button class="bg-blue-700">Create</jet-button>
+                        <jet-button class="bg-blue-700">Save</jet-button>
                     </template>
                 </jet-form-section>
             </div>
@@ -40,7 +40,7 @@
     import JetInputError from '@/Jetstream/InputError';
 
     export default {
-        props: ['blogs'],
+        props: ['blog'],
         components: {
             AppLayout,
             JetFormSection,
@@ -53,31 +53,31 @@
             return {
                 form: this.$inertia.form(
                     {
-                        _method: "POST",
-                        title: "",
-                        content: "",
+                        _method: "PUT",
+                        title: this.blog.title,
+                        content: this.blog.content,
                     },
                     {
-                        bag: "blogCreate",
+                        bag: "blogUpdate",
                         resetOnSuccess: false,
                     }
                 )
             };
         },
         methods: {
-            createBlog() {
-                // console.log('submitted');
-                this.form.post(route("blog.store"), {
-                    errorBag: 'blogCreate',
+            editBlog() {
+                // console.log(this.blog);
+                this.form.post(route("blog.update", this.blog), {
+                    errorBag: 'blogUpdate',
                     onError: () => {
                         if (this.form.errors.title) {
                             // console.log('title error');
-                            //this.$refs.title.focus()
+                            // this.$refs.title.focus()
                         }
 
                         if (this.form.errors.content) {
                             // console.log('content error');
-                            //this.$refs.content.focus()
+                            // this.$refs.content.focus()
                         }
                     },
                 });
